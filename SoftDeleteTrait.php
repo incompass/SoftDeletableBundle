@@ -8,7 +8,7 @@ use DateTime;
  * Trait SoftDeletable
  * @package Incompass\SoftDeletableBundle
  */
-trait SoftDeletable
+trait SoftDeleteTrait
 {
     /**
      * @ORM\Column(type="datetime", nullable=true)

@@ -2,7 +2,7 @@
 
 namespace Incompass\SoftDeletableBundle\Tests;
 
-use Incompass\SoftDeletableBundle\SoftDeletable;
+use Incompass\SoftDeletableBundle\SoftDeleteTrait;
 
 /**
  * Class EntityStub
@@ -13,5 +13,5 @@ use Incompass\SoftDeletableBundle\SoftDeletable;
  */
 class EntityStub
 {
-    use SoftDeletable;
+    use SoftDeleteTrait;
 }
