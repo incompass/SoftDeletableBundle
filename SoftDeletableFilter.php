@@ -29,7 +29,7 @@ class SoftDeletableFilter extends SQLFilter
      */
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
-        if (in_array(SoftDeletable::class, class_uses($targetEntity->name))) {
+        if (in_array(SoftDeleteTrait::class, class_uses($targetEntity->name))) {
             if (array_key_exists($targetEntity->name, $this->disabled) && $this->disabled[$targetEntity->name] === true) {
                 return '';
             } elseif (array_key_exists($targetEntity->rootEntityName, $this->disabled) && $this->disabled[$targetEntity->rootEntityName] === true) {
@@ -54,7 +54,7 @@ class SoftDeletableFilter extends SQLFilter
      */
     public function enableForEntity(string $class)
     {
-        if (!in_array(SoftDeletable::class, class_uses($class))) {
+        if (!in_array(SoftDeleteTrait::class, class_uses($class))) {
             throw new \InvalidArgumentException();
         } else {
             $this->disabled[$class] = false;

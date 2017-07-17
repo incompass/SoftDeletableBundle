@@ -5,7 +5,7 @@
 SoftDeletableBundle
 ===================
 
-This bundle allows you to simply add ```use SoftDeletable```
+This bundle allows you to simply add ```use SoftDeleteTrait```
 to a doctrine entity class to enable soft deletes.
 
 Installation
@@ -22,7 +22,7 @@ Usage
 Add the SoftDeletable trait to your doctrine entities.
 
 ```
-use SoftDeletable
+use SoftDeleteTrait
 ```
 
 Update your database schema

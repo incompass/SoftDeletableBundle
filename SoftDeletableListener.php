@@ -33,8 +33,8 @@ class SoftDeletableListener implements EventSubscriber
         $entityManager = $args->getEntityManager();
         $unitOfWork = $entityManager->getUnitOfWork();
         foreach ($unitOfWork->getScheduledEntityDeletions() as $entity) {
-            if (in_array(SoftDeletable::class, class_uses($entity))) {
-                /** @var SoftDeletable $entity */
+            if (in_array(SoftDeleteTrait::class, class_uses($entity))) {
+                /** @var SoftDeleteTrait $entity */
                 if ($entity->isDeleted()) {
                     continue;
                 }
