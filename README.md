@@ -19,7 +19,7 @@ composer require incompass/soft-deletable-bundle
 Usage
 -----
 
-Add the SoftDeletable trait to your doctrine entities.
+Add the SoftDeleteTrait trait to your doctrine entities.
 
 ```
 use SoftDeleteTrait
