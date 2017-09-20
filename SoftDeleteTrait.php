@@ -3,21 +3,25 @@
 namespace Incompass\SoftDeletableBundle;
 
 use DateTime;
+use Doctrine\ORM\Mapping\Column;
 
 /**
  * Trait SoftDeletable
+ *
  * @package Incompass\SoftDeletableBundle
+ * @author  Joe Mizzi <joe@casechek.com>
  */
 trait SoftDeleteTrait
 {
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @Column(type="datetime", nullable=true)
      * @var DateTime
      */
     protected $deletedAt;
 
     /**
-     * @param Datetime|null $deletedAt
+     * @param DateTime|null $deletedAt
+     * @return void
      */
     public function setDeletedAt(DateTime $deletedAt = null)
     {

@@ -5,19 +5,26 @@
 SoftDeletableBundle
 ===================
 
-This bundle allows you to simply add ```use SoftDeleteTrait```
+This bundle allows you to simply add ```implements SoftDeleteInterface``` and  ```use SoftDeleteTrait```
 to a doctrine entity class to enable soft deletes.
 
 Installation
 ------------
 
 ### Composer
+
 ```
 composer require incompass/soft-deletable-bundle
 ```
 
 Usage
 -----
+
+Implement the SoftDeleteInterface.
+
+```
+class Entity implements SoftDeleteInterface {}
+```
 
 Add the SoftDeleteTrait trait to your doctrine entities.
 
@@ -26,6 +33,7 @@ use SoftDeleteTrait
 ```
 
 Update your database schema
+
 ```
 php bin/console doctrine:schema:update --force
 ```
