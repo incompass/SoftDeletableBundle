@@ -24,9 +24,9 @@
         "mockery/mockery": "^0.9.9"
     },
     "autoload": {
-        "psr-4": { "Incompass\\SharedBundle\\": "src" }
+        "psr-4": { "Incompass\\SoftDeletableBundle\\": "src" }
     },
     "autoload-dev": {
-        "psr-4": { "Tests\\Incompass\\SharedBundle\\": "tests" }
+        "psr-4": { "Tests\\Incompass\\SoftDeletableBundle\\": "tests" }
     }
 }
