@@ -1,6 +1,6 @@
 <?php
 
-namespace Incompass\SoftDeletableBundle;
+namespace Incompass\SoftDeletableBundle\Filter;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;

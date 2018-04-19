@@ -1,6 +1,6 @@
 <?php
 
-namespace Incompass\SoftDeletableBundle;
+namespace Incompass\SoftDeletableBundle\EntityListener;
 
 use DateTime;
 use Doctrine\Common\EventSubscriber;
