@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  * @package Incompass\SharedBundle\DependencyInjection
  * @author  Joe Mizzi <joe@casechek.com>
  */
-class SharedExtension extends Extension
+class SoftDeletableExtension extends Extension
 {
     /**
      * Loads a specific configuration.
@@ -26,8 +26,8 @@ class SharedExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-//        $definition = new Definition(SoftDeletableListener::class);
-//        $definition->addTag('doctrine.event_listener', ['event' => 'onFlush', 'priority' => -9999]);
-//        $container->setDefinition('soft_deletable.listener', $definition);
+        $definition = new Definition(SoftDeletableListener::class);
+        $definition->addTag('doctrine.event_listener', ['event' => 'onFlush', 'priority' => -9999]);
+        $container->setDefinition('soft_deletable.listener', $definition);
     }
 }
