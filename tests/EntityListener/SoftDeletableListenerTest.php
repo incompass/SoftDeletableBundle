@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Incompass\SoftDeletableBundle\Tests;
+namespace Tests\Incompass\SoftDeletableBundle;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -21,7 +21,7 @@ class SoftDeletableListenerTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_soft_deletes_an_entity()
+    public function it_soft_deletes_an_entity(): void
     {
         $entityStub = new EntityStub();
 
@@ -60,7 +60,7 @@ class SoftDeletableListenerTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_does_not_soft_delete_an_already_soft_deleted_entity()
+    public function it_does_not_soft_delete_an_already_soft_deleted_entity(): void
     {
         $entityStub = new EntityStub();
         $entityStub->setDeletedAt(new DateTime());

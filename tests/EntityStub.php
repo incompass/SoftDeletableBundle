@@ -1,6 +1,6 @@
 <?php
 
-namespace Incompass\SoftDeletableBundle\Tests;
+namespace Tests\Incompass\SoftDeletableBundle;
 
 use Incompass\SoftDeletableBundle\SoftDeleteInterface;
 use Incompass\SoftDeletableBundle\SoftDeleteTrait;
