@@ -2,7 +2,7 @@
 
 namespace Incompass\SoftDeletableBundle\DependencyInjection;
 
-use Incompass\SoftDeletableBundle\EntityListener\SoftDeletableListener;
+use Incompass\SoftDeletableBundle\EventListener\SoftDeletableListener;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;

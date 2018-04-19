@@ -2,9 +2,10 @@
 
 namespace Incompass\SoftDeletableBundle\EventListener;
 
+
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Incompass\TimestampableBundle\Entity\SoftDeleteInterface;
-use Incompass\TimestampableBundle\Entity\SoftDeleteTrait;
+use Incompass\SoftDeletableBundle\Entity\SoftDeleteInterface;
+use Incompass\SoftDeletableBundle\Entity\SoftDeleteTrait;
 
 /**
  * Class SoftDeletableListener
@@ -20,21 +21,6 @@ class SoftDeletableListener
      */
     public function onFlush(OnFlushEventArgs $args)
     {
-
-        $uow = $args->getEntityManager()->getUnitOfWork();
-
-        foreach ($uow->getScheduledEntityInsertions() as $insert) {
-            if ($insert instanceof TimestampInterface) {
-                $timestamp = true;
-            }
-        }
-
-        foreach ($uow->getScheduledEntityInsertions() as $insert) {
-            if ($insert instanceof SoftDeleteInterface) {
-                $delete = true;
-            }
-        }
-
         $entityManager = $args->getEntityManager();
         $unitOfWork = $entityManager->getUnitOfWork();
         foreach ($unitOfWork->getScheduledEntityDeletions() as $entity) {
@@ -43,14 +29,12 @@ class SoftDeletableListener
                 if ($entity->isDeleted()) {
                     continue;
                 }
-                $entity->setDeletedAt(new DateTime());
+                $entity->setDeletedAt(new \DateTime());
                 $entityManager->persist($entity);
                 $unitOfWork->propertyChanged($entity, 'deletedAt', null, $entity->getDeletedAt());
                 $unitOfWork->scheduleExtraUpdate($entity, [
                     'deletedAt' => [null, $entity->getDeletedAt()]
                 ]);
-            } elseif ($entity instanceof SoftDeleteInterface) {
-                $pause = 1;
             }
         }
     }
