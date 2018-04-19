@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
+use Incompass\SharedBundle\Entity\SurgeryRequestTemplate;
 use Incompass\SoftDeletableBundle\EventListener\SoftDeletableListener;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -57,6 +58,13 @@ class SoftDeletableListenerTest extends TestCase
      */
     public function it_soft_deletes_an_entity(): void
     {
+        $surgeryRequestTemplate = new SurgeryRequestTemplate();
+        $this->unitOfWork->getScheduledEntityDeletions()->willReturn([$surgeryRequestTemplate]);
+        $surgeryRequestTemplate->setDeletedAt(new \DateTime());
+        $this->entityManager->persist($surgeryRequestTemplate)->shouldBeCalled();
+        $entityName = $this->entityManager->getMetadataFactory()->getMetadataFor(get_class($entity))->getName();
+        $this->unitOfWork->computeChangeSet($entityName, $entity)->shouldBeCalled();
+
         $this->softDeletableListener->onFlush($this->args->reveal());
     }
 
