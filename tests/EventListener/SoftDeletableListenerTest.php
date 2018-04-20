@@ -2,14 +2,13 @@
 
 namespace Tests\Incompass\SoftDeletableBundle;
 
-use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
-use Incompass\SharedBundle\Entity\SurgeryRequestTemplate;
 use Incompass\SoftDeletableBundle\EventListener\SoftDeletableListener;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\Argument;
 
 /**
  * Class SoftDeletableListenerTest
@@ -58,82 +57,29 @@ class SoftDeletableListenerTest extends TestCase
      */
     public function it_soft_deletes_an_entity(): void
     {
-        $surgeryRequestTemplate = new SurgeryRequestTemplate();
-        $this->unitOfWork->getScheduledEntityDeletions()->willReturn([$surgeryRequestTemplate]);
-        $surgeryRequestTemplate->setDeletedAt(new \DateTime());
-        $this->entityManager->persist($surgeryRequestTemplate)->shouldBeCalled();
-        $entityName = $this->entityManager->getMetadataFactory()->getMetadataFor(get_class($entity))->getName();
-        $this->unitOfWork->computeChangeSet($entityName, $entity)->shouldBeCalled();
+        $entityStub = new EntityStub();
+        $this->unitOfWork->getScheduledEntityDeletions()->willReturn([$entityStub]);
+        $this->entityManager->persist($entityStub)->shouldBeCalled();
+
+        // We are using Argument::any() here as the datetime is set in the listener
+        // and we can't get the exact same DatTime into the test, so the test always fails.
+        // argument:any() has to be used in the function call, it can't substitute values inside the argument array
+        $this->unitOfWork->propertyChanged($entityStub, 'deletedAt', null, Argument::any())->shouldBeCalled();
+        $this->unitOfWork->scheduleExtraUpdate($entityStub, Argument::any())->shouldBeCalled();
 
         $this->softDeletableListener->onFlush($this->args->reveal());
     }
 
-
     /**
      * @test
      */
-//    public function it_soft_deletes_an_entity(): void
-//    {
-//        $entityStub = new EntityStub();
-//
-//        $unitOfWorkMock = \Mockery::mock(UnitOfWork::class);
-//        $unitOfWorkMock
-//            ->shouldReceive('getScheduledEntityDeletions')
-//            ->andReturn([$entityStub]);
-//        $unitOfWorkMock
-//            ->shouldReceive('propertyChanged')
-//            ->once()
-//            ->withAnyArgs();
-//        $unitOfWorkMock
-//            ->shouldReceive('scheduleExtraUpdate')
-//            ->once()
-//            ->withAnyArgs();
-//
-//        $entityManagerMock = \Mockery::mock(EntityManager::class);
-//        $entityManagerMock
-//            ->shouldReceive('getUnitOfWork')
-//            ->andReturn($unitOfWorkMock);
-//        $entityManagerMock
-//            ->shouldReceive('persist')
-//            ->once()
-//            ->with($entityStub);
-//
-//        $argsMock = \Mockery::mock(OnFlushEventArgs::class);
-//        $argsMock
-//            ->shouldReceive('getEntityManager')
-//            ->andReturn($entityManagerMock);
-//
-//        $softDeletableListener = new SoftDeletableListener();
-//        $softDeletableListener->onFlush($argsMock);
-//        $this->assertTrue($entityStub->isDeleted());
-//    }
+    public function it_does_not_soft_delete_an_already_soft_deleted_entity(): void
+    {
+        $entityStub = new EntityStub();
+        $this->unitOfWork->getScheduledEntityDeletions()->willReturn([$entityStub]);
+        $entityStub->setDeletedAt(new \DateTime());
+        $this->entityManager->persist($entityStub)->shouldNotBeCalled();
 
-    /**
-     * @test
-     */
-//    public function it_does_not_soft_delete_an_already_soft_deleted_entity(): void
-//    {
-//        $entityStub = new EntityStub();
-//        $entityStub->setDeletedAt(new DateTime());
-//
-//        $unitOfWorkMock = \Mockery::mock(UnitOfWork::class);
-//        $unitOfWorkMock
-//            ->shouldReceive('getScheduledEntityDeletions')
-//            ->andReturn([$entityStub]);
-//
-//        $entityManagerMock = \Mockery::mock(EntityManager::class);
-//        $entityManagerMock
-//            ->shouldReceive('getUnitOfWork')
-//            ->andReturn($unitOfWorkMock);
-//        $entityManagerMock
-//            ->shouldNotHaveReceived('persist');
-//
-//        $argsMock = \Mockery::mock(OnFlushEventArgs::class);
-//        $argsMock
-//            ->shouldReceive('getEntityManager')
-//            ->andReturn($entityManagerMock);
-//
-//        $softDeletableListener = new SoftDeletableListener();
-//        $softDeletableListener->onFlush($argsMock);
-//    }
+        $this->softDeletableListener->onFlush($this->args->reveal());
+    }
 }
