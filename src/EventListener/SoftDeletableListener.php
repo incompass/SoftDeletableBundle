@@ -31,12 +31,11 @@ class SoftDeletableListener
                 }
                 $entity->setDeletedAt(new \DateTime());
                 $entityManager->persist($entity);
-                $unitOfWork->computeChangeSet(
-                    $entityManager->getClassMetadata(
-                        $entityManager->getMetadataFactory()->getMetadataFor(get_class($entity))->getName()
-                    ),
-                    $entity
-                );
+
+                $unitOfWork->propertyChanged($entity, 'deletedAt', null, $entity->getDeletedAt());
+                $unitOfWork->scheduleExtraUpdate($entity, [
+                    'deletedAt' => [null, $entity->getDeletedAt()]
+                ]);
             }
         }
     }
