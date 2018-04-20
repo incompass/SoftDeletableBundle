@@ -1,30 +1,21 @@
 <?php
 
-namespace Incompass\SoftDeletableBundle;
+namespace Incompass\SoftDeletableBundle\EventListener;
 
-use DateTime;
-use Doctrine\Common\EventSubscriber;
+
 use Doctrine\ORM\Event\OnFlushEventArgs;
+use Incompass\SoftDeletableBundle\Entity\SoftDeleteInterface;
+use Incompass\SoftDeletableBundle\Entity\SoftDeleteTrait;
 
 /**
  * Class SoftDeletableListener
  *
- * @package Incompass\SoftDeletableBundle
+ * @package Incompass\SoftDeletableBundle\EventListener
  * @author  Joe Mizzi <joe@casechek.com>
  * @author  Mike Bates <mike@casechek.com>
  */
-class SoftDeletableListener implements EventSubscriber
+class SoftDeletableListener
 {
-    /**
-     * @return array
-     */
-    public function getSubscribedEvents()
-    {
-        return [
-            'onFlush',
-        ];
-    }
-
     /**
      * @param OnFlushEventArgs $args
      */
@@ -38,8 +29,9 @@ class SoftDeletableListener implements EventSubscriber
                 if ($entity->isDeleted()) {
                     continue;
                 }
-                $entity->setDeletedAt(new DateTime());
+                $entity->setDeletedAt(new \DateTime());
                 $entityManager->persist($entity);
+
                 $unitOfWork->propertyChanged($entity, 'deletedAt', null, $entity->getDeletedAt());
                 $unitOfWork->scheduleExtraUpdate($entity, [
                     'deletedAt' => [null, $entity->getDeletedAt()]
