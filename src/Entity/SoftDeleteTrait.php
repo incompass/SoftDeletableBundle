@@ -1,6 +1,6 @@
 <?php
 
-namespace Incompass\SoftDeletableBundle;
+namespace Incompass\SoftDeletableBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping\Column;
