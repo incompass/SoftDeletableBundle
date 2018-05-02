@@ -9,6 +9,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * Class Configuration
  *
  * @package Incompass\SharedBundle\DependencyInjection
+ * @author  Joe Mizzi <joe@casechek.com>
  * @author  Mike Bates <mike@casechek.com>
  */
 class Configuration implements ConfigurationInterface

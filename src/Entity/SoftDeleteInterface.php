@@ -9,6 +9,7 @@ use DateTime;
  *
  * @package Incompass\SoftDeletableBundle
  * @author  Joe Mizzi <joe@casehek.com>
+ * @author  Mike Bates <mike@casechek.com>
  */
 interface SoftDeleteInterface
 {

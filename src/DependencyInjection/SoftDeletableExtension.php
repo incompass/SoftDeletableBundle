@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * @package Incompass\SharedBundle\DependencyInjection
  * @author  Joe Mizzi <joe@casechek.com>
+ * @author  Mike Bates <mike@casechek.com>
  */
 class SoftDeletableExtension extends Extension
 {

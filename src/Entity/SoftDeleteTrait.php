@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\Column;
  *
  * @package Incompass\SoftDeletableBundle
  * @author  Joe Mizzi <joe@casechek.com>
+ * @author  Mike Bates <mike@casechek.com>
  */
 trait SoftDeleteTrait
 {
