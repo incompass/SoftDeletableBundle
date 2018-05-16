@@ -2,7 +2,6 @@
 
 namespace Incompass\SoftDeletableBundle\EventListener;
 
-
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Incompass\SoftDeletableBundle\Entity\SoftDeleteInterface;
 use Incompass\SoftDeletableBundle\Entity\SoftDeleteTrait;
@@ -25,16 +24,17 @@ class SoftDeletableListener
         $unitOfWork = $entityManager->getUnitOfWork();
         foreach ($unitOfWork->getScheduledEntityDeletions() as $entity) {
             if ($entity instanceof SoftDeleteInterface) {
+                $oldValue = null;
                 /** @var SoftDeleteTrait $entity */
                 if ($entity->isDeleted()) {
-                    continue;
+                    $oldValue = $entity->getDeletedAt();
+                } else {
+                    $entity->setDeletedAt(new \DateTime());
                 }
-                $entity->setDeletedAt(new \DateTime());
-                $entityManager->persist($entity);
 
-                $unitOfWork->propertyChanged($entity, 'deletedAt', null, $entity->getDeletedAt());
+                $unitOfWork->propertyChanged($entity, 'deletedAt', $oldValue, $entity->getDeletedAt());
                 $unitOfWork->scheduleExtraUpdate($entity, [
-                    'deletedAt' => [null, $entity->getDeletedAt()]
+                    'deletedAt' => [$oldValue, $entity->getDeletedAt()]
                 ]);
             }
         }
