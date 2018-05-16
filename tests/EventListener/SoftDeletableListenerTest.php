@@ -78,7 +78,7 @@ class SoftDeletableListenerTest extends TestCase
         $entityStub = new EntityStub();
         $this->unitOfWork->getScheduledEntityDeletions()->willReturn([$entityStub]);
         $entityStub->setDeletedAt(new \DateTime());
-        $this->entityManager->persist($entityStub)->shouldNotBeCalled();
+        $this->entityManager->persist($entityStub)->shouldBeCalled();
 
         $this->softDeletableListener->onFlush($this->args->reveal());
     }
