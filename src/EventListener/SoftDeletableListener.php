@@ -24,17 +24,17 @@ class SoftDeletableListener
         $unitOfWork = $entityManager->getUnitOfWork();
         foreach ($unitOfWork->getScheduledEntityDeletions() as $entity) {
             if ($entity instanceof SoftDeleteInterface) {
-                $oldValue = null;
                 /** @var SoftDeleteTrait $entity */
                 if ($entity->isDeleted()) {
-                    $oldValue = $entity->getDeletedAt();
-                } else {
-                    $entity->setDeletedAt(new \DateTime());
+                    $entityManager->persist($entity);
+                    continue;
                 }
+                $entity->setDeletedAt(new \DateTime());
+                $entityManager->persist($entity);
 
-                $unitOfWork->propertyChanged($entity, 'deletedAt', $oldValue, $entity->getDeletedAt());
+                $unitOfWork->propertyChanged($entity, 'deletedAt', null, $entity->getDeletedAt());
                 $unitOfWork->scheduleExtraUpdate($entity, [
-                    'deletedAt' => [$oldValue, $entity->getDeletedAt()]
+                    'deletedAt' => [null, $entity->getDeletedAt()]
                 ]);
             }
         }
