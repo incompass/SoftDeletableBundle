@@ -2,7 +2,6 @@
 
 namespace Incompass\SoftDeletableBundle\EventListener;
 
-
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Incompass\SoftDeletableBundle\Entity\SoftDeleteInterface;
 use Incompass\SoftDeletableBundle\Entity\SoftDeleteTrait;
@@ -27,6 +26,7 @@ class SoftDeletableListener
             if ($entity instanceof SoftDeleteInterface) {
                 /** @var SoftDeleteTrait $entity */
                 if ($entity->isDeleted()) {
+                    $entityManager->persist($entity);
                     continue;
                 }
                 $entity->setDeletedAt(new \DateTime());
