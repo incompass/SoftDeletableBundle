@@ -9,7 +9,6 @@ use Incompass\SoftDeletableBundle\EventListener\SoftDeletableListener;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Argument;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * Class SoftDeletableListenerTest

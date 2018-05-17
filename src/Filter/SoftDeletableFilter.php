@@ -4,6 +4,7 @@ namespace Incompass\SoftDeletableBundle\Filter;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
+use Incompass\SoftDeletableBundle\Entity\SoftDeleteTrait;
 
 /**
  * Class SoftDeletableFilter
